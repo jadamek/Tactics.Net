@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Disposable.cs" />
+    <Compile Include="Isogeometry\Isogeometry.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>
   <ItemGroup />

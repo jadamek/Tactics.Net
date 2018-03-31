@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Graphics;
+using SFML.System;
 
 namespace Tactics.Net
 {
@@ -18,7 +20,7 @@ namespace Tactics.Net
         //--------------------------------------------------------------------------------------------------------------------
         static void Main()
         {
-            SFML.Graphics.RenderWindow window = new SFML.Graphics.RenderWindow(new SFML.Window.VideoMode(640, 480), "Tactics!");
+            RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(640, 480), "Tactics!");
             window.Closed += (s, e) => { window.Close(); };
 
             while(window.IsOpen)

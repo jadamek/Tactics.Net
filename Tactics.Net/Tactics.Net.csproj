@@ -72,7 +72,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Disposable.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

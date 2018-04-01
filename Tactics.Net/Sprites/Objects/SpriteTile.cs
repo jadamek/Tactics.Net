@@ -24,8 +24,8 @@ namespace Tactics.Net.Sprites.Objects
         public SpriteTile(Texture texture, int width = 0, int length = 0, int height = 0, bool continuous = false)
         {
             // Width|Length must be between (0, Texture.Width|Length / 2], or set to Texture.Width|Length / 2
-            Width = width <= 0 || width > texture.Size.X ? (int)texture.Size.X : width;
-            Length = length <= 0 || length > texture.Size.X ? (int)texture.Size.X : length;
+            Width = width <= 0 || width > texture.Size.X / 2 ? (int)texture.Size.X / 2: width;
+            Length = length <= 0 || length > texture.Size.Y  / 2? (int)texture.Size.Y / 2: length;
             Height = Math.Max(0, height);
             Continuous = continuous;
 

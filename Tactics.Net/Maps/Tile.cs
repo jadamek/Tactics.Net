@@ -70,7 +70,7 @@ namespace Tactics.Net.Maps
         //--------------------------------------------------------------------------------------------------------------------
         public override FloatRect GetGlobalBounds()
         {
-            return Sprite.GetGlobalBounds();
+            return Sprite?.GetGlobalBounds() ?? new FloatRect();
         }
 
         // Members

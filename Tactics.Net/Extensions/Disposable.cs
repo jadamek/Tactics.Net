@@ -12,7 +12,7 @@ namespace Tactics.Net.Extensions
     public class Disposable : IDisposable
     {
         //--------------------------------------------------------------------------------------------------------------------
-        // - Dispose And Notify
+        // - Dispose And Notify (Implementation)
         //--------------------------------------------------------------------------------------------------------------------
         // Extension which connects Dispose to the 'Disposed' event. Meant to be extended for actual
         // cleanup logic

@@ -70,6 +70,18 @@
     <Content Include="openal32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Graphics\Tiles\DirtSpace_32x24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Graphics\Tiles\DirtTile_32x24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Graphics\Tiles\GrassSpace_32x24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Graphics\Tiles\GrassTile_32x24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Disposable.cs" />
@@ -77,6 +89,7 @@
     <Compile Include="Isogeometry\IsometricObject.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\Tile.cs" />
+    <Compile Include="Sprites\Objects\SpriteTile.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>
   <ItemGroup />

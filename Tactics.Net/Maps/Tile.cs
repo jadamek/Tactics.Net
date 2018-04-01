@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using Tactics.Net.Isogeometry;
+using Tactics.Net.Sprites;
 
-namespace Tactics.Net.Map
+namespace Tactics.Net.Maps
 {
     //========================================================================================================================
     // ** Isometric Tile
@@ -16,14 +17,14 @@ namespace Tactics.Net.Map
     //========================================================================================================================
     public class Tile : IsometricObject
     {
-        public Tile(Sprite sprite = null, float height = 1.0f)
+        public Tile(ISprite sprite = null, float height = 1.0f)
         {
             Sprite = sprite;
 
             // If the Z-coordinate is changed, appropriately adjust the Z-coordinate of any occupying objects 
             PositionChanged += (s, e) =>
             {
-                if(e.NewPosition.Z != e.OldPosition.Z)
+                if(e.NewPosition.Z != e.OldPosition.Z && Occupant != null)
                 {
                     Occupant.Position = new Vector3f(Occupant.Position.X, Occupant.Position.Y, Occupant.Position.Z + e.NewPosition.Z - e.OldPosition.Z);
                 }
@@ -64,9 +65,17 @@ namespace Tactics.Net.Map
             base.Dispose();
         }
 
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Global Bounding Rectangle (Implementation)
+        //--------------------------------------------------------------------------------------------------------------------
+        public override FloatRect GetGlobalBounds()
+        {
+            return Sprite.GetGlobalBounds();
+        }
+
         // Members
         public IsometricObject Occupant { get; set; }
-        protected Sprite Sprite { get; set; }
+        protected ISprite Sprite { get; set; }
         protected float height_;
     }
 }

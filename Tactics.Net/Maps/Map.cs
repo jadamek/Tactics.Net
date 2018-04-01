@@ -7,7 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using Tactics.Net.Extensions;
 
-namespace Tactics.Net.Map
+namespace Tactics.Net.Maps
 {
     //========================================================================================================================
     // ** Isometric Tilemap
@@ -24,6 +24,14 @@ namespace Tactics.Net.Map
             Width = Math.Max(1, width);
             Length = Math.Max(1, length);
             Tiles = new List<Tile>[Width, Length];
+
+            for (int x = 0; x <Width; x++)
+            {
+                for(int y = 0; y < Length; y++)
+                {
+                    Tiles[x, y] = new List<Tile>();
+                }
+            }
             // Actors = new Actor[Width, Length];
         }
 
@@ -108,10 +116,10 @@ namespace Tactics.Net.Map
                     {
                         tile.Occupant.Position = new Vector3f(tile.Occupant.Position.X, tile.Occupant.Position.Y, tile.Occupant.Position.Z + tile.Height());
                     }
-
-                    tile.Position = new Vector3f(x, y, z);
-                    Tiles[x, y].Add(tile);
                 }
+
+                tile.Position = new Vector3f(x, y, z);
+                Tiles[x, y].Add(tile);
 
                 // Report a successful placement
                 return true;

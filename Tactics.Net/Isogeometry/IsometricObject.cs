@@ -37,6 +37,11 @@ namespace Tactics.Net.Isogeometry
         public abstract void Draw(RenderTarget target, RenderStates states);
 
         //--------------------------------------------------------------------------------------------------------------------
+        // - Global Bounding Rectangle (Abstract)
+        //--------------------------------------------------------------------------------------------------------------------
+        public abstract FloatRect GetGlobalBounds();
+
+        //--------------------------------------------------------------------------------------------------------------------
         // - Position (Property)
         //--------------------------------------------------------------------------------------------------------------------
         // Fires an event when the object's position is effectively changed

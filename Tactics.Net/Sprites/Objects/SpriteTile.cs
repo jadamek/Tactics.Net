@@ -16,7 +16,7 @@ namespace Tactics.Net.Sprites.Objects
     // Right half : tile center body (0, length, width, length)
     // Unit under top-left : tile bottom face (width, 0, width, entire length of texture)
     //========================================================================================================================
-    public class SpriteTile : Transformable, Drawable, IDisposable
+    public class SpriteTile : Transformable, ISprite
     {
         //--------------------------------------------------------------------------------------------------------------------
         // Tile Sprite Constructor
@@ -91,12 +91,13 @@ namespace Tactics.Net.Sprites.Objects
         //--------------------------------------------------------------------------------------------------------------------
         public void Draw(RenderTarget target, RenderStates states)
         {
-            states.Transform *= Transform;
+            states.Transform *= Transform;            
 
             Bottom?.Draw(target, states);
             Body?.Draw(target, states);
             Top.Draw(target, states);
         }
+
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Dispose (Implementation)
@@ -107,6 +108,31 @@ namespace Tactics.Net.Sprites.Objects
             Body?.Dispose();
             Bottom?.Dispose();
             base.Dispose();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Compute Global Bounding Rectangle
+        //--------------------------------------------------------------------------------------------------------------------
+        public FloatRect GetGlobalBounds()
+        {
+            FloatRect bounds = Top.GetGlobalBounds();
+            bounds.Height += Body?.GetGlobalBounds().Height ?? 0;
+
+            return bounds;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Overlay Blending Color (Property)
+        //--------------------------------------------------------------------------------------------------------------------
+        public Color Color
+        {
+            get { return Top.Color; }
+            set
+            {
+                Top.Color = value;
+                if (Body != null) Body.Color = value;
+                if (Bottom != null) Bottom.Color = value;
+            }
         }
 
         // Members

@@ -87,8 +87,9 @@
     <Compile Include="Extensions\Disposable.cs" />
     <Compile Include="Isogeometry\Isogeometry.cs" />
     <Compile Include="Isogeometry\IsometricObject.cs" />
-    <Compile Include="Map\Map.cs" />
-    <Compile Include="Map\Tile.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\Tile.cs" />
+    <Compile Include="Sprites\ISprite.cs" />
     <Compile Include="Sprites\Objects\SpriteTile.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>

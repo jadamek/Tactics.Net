@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
+using Tactics.Net.Maps;
+using Tactics.Net.Sprites.Objects;
 
 namespace Tactics.Net
 {
@@ -21,15 +23,18 @@ namespace Tactics.Net
         static void Main()
         {
             // Create a tile sprite
+            Texture dirtTexture = new Texture("Resources/Graphics/Tiles/DirtTile_32x24.png");
             Texture grassTexture = new Texture("Resources/Graphics/Tiles/GrassTile_32x24.png");
-            Sprites.Objects.SpriteTile grassTile = new Sprites.Objects.SpriteTile(grassTexture, 32, 24, 32, true)
+
+            Map map = new Map();
+            for(int x = 0; x < map.Width; x++)
             {
-                Position = new Vector2f(100, 100)
-            };
-            Sprites.Objects.SpriteTile grassTile2 = new Sprites.Objects.SpriteTile(grassTexture, 32, 24,68, false)
-            {
-                Position = new Vector2f(132, 100)
-            };
+                for(int y = 0; y < map.Length; y++)
+                {
+                    map.Place(new Tile(new SpriteTile(dirtTexture, 32, 24, 16, true), 2), x, y);
+                    map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 8), 1), x, y);
+                }
+            }
 
             // Instantiate the main rendering window
             RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(640, 480), "Tactics!");
@@ -38,10 +43,8 @@ namespace Tactics.Net
             while(window.IsOpen)
             {
                 window.DispatchEvents();
-
                 window.Clear();
-                window.Draw(grassTile);
-                window.Draw(grassTile2);
+                window.Draw(map);
                 window.Display();
             }
         }

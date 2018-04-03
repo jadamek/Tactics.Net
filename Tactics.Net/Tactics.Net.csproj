@@ -88,6 +88,8 @@
     <Compile Include="Animation\Animations.cs" />
     <Compile Include="Extensions\Disposable.cs" />
     <Compile Include="Isogeometry\Isogeometry.cs" />
+    <Compile Include="Isogeometry\IsometricBuffer.cs" />
+    <Compile Include="Isogeometry\IsometricBufferNode.cs" />
     <Compile Include="Isogeometry\IsometricObject.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />

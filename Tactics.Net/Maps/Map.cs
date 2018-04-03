@@ -130,7 +130,7 @@ namespace Tactics.Net.Maps
         // Members
         public int Width { get; }
         public int Length { get; }
-        protected List<Tile>[,] Tiles { get; }
+        public List<Tile>[,] Tiles { get; }
         // protected Actor[,] Actors { get; }
     }
 }

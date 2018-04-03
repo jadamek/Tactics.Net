@@ -28,7 +28,12 @@ namespace Tactics.Net.Animation
                     Payload = animation,
                     Next = Front
                 };
-                Front.Previous = node;
+
+                // Update Front node
+                if (Front != null)
+                {
+                    Front.Previous = node;
+                }
                 Front = node;
             }
         }

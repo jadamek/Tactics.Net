@@ -64,19 +64,10 @@ namespace Tactics.Net.Isogeometry
                     // If neither, then compare isometric X+Y (closeness) relationship ...
                     else
                     {
-                        if (a.Position.X + a.Position.Y != b.Position.X + b.Position.Y)
-                        {
-                            return a.Position.X + a.Position.Y > b.Position.X + b.Position.Y;
-                        }
-                        // If the two objects are Z-wise within eachother (neither is purely above the other), and in the same
-                        // X + Y space, then arbitrarily break the tie with Y coordinate comparison
-                        else
-                        {
-                            return a.Position.Y >= b.Position.Y;
-                        }
+                        return a.Position.X + a.Position.Y >= b.Position.X + b.Position.Y;
                     }
                 }
-                return false;                    
+                return false;
             }
 
             //----------------------------------------------------------------------------------------------------------------

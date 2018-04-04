@@ -28,6 +28,7 @@ namespace Tactics.Net.Isogeometry
         //--------------------------------------------------------------------------------------------------------------------
         protected virtual void OnPositionChange(Vector3f oldPosition, Vector3f newPosition)
         {
+            GlobalPosition = Isogeometry.IsoToGlobal(Position);
             PositionChanged?.Invoke(this, new PositionChangedEventArgs() { OldPosition = oldPosition, NewPosition = newPosition, });
         }
 
@@ -61,7 +62,7 @@ namespace Tactics.Net.Isogeometry
         }
 
         // Members
-        public Vector2f GlobalPosition { get { return Isogeometry.IsoToGlobal(Position); } }
+        public Vector2f GlobalPosition { get; set; }
 
         // Members - Events
         public event EventHandler<PositionChangedEventArgs> PositionChanged;

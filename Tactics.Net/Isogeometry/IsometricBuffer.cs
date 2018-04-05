@@ -162,8 +162,6 @@ namespace Tactics.Net.Isogeometry
         //--------------------------------------------------------------------------------------------------------------------
         public void Draw(RenderTarget target, RenderStates states)
         {
-            // Place a MutEx lock on the sorted drawable object's array, then draw each of the isometric objects in order
-
             // Draw each sorted isometric object, isometrically projected to screen coordinates
             foreach(IsometricObject sortedObject in SortedObjects)
             {
@@ -207,7 +205,7 @@ namespace Tactics.Net.Isogeometry
             base.Dispose();
         }
 
-        // Members
+        // Members - private
         private List<IsometricBufferNode> Nodes { get; } = new List<IsometricBufferNode>();
         private List<IsometricObject> SortedObjects { get; } = new List<IsometricObject>();
         private bool Dirty { get; set; }

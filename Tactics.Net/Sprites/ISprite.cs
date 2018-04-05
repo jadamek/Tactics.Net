@@ -8,6 +8,11 @@ using SFML.System;
 
 namespace Tactics.Net.Sprites
 {
+    //========================================================================================================================
+    // ** Sprite Interface
+    //========================================================================================================================
+    // Combines Drawable, IDisposable and the interface of the SFML.Transformable class into a single interface
+    //========================================================================================================================
     public interface ISprite : Drawable, IDisposable
     {
         // Methods

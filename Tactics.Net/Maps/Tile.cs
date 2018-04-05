@@ -75,6 +75,8 @@ namespace Tactics.Net.Maps
 
         // Members
         public IsometricObject Occupant { get; set; }
+
+        // Members - private
         protected ISprite Sprite { get; set; }
         protected float height_;
     }

@@ -111,7 +111,7 @@ namespace Tactics.Net.Sprites.Objects
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        // - Compute Global Bounding Rectangle
+        // - Compute Global Bounding Rectangle (Implementation)
         //--------------------------------------------------------------------------------------------------------------------
         public FloatRect GetGlobalBounds()
         {
@@ -135,7 +135,7 @@ namespace Tactics.Net.Sprites.Objects
             }
         }
 
-        // Members
+        // Members - private
         protected int Width { get; set; }
         protected int Length { get; set; }
         protected int Height { get; set; }

@@ -147,8 +147,11 @@ namespace Tactics.Net.Isogeometry
             public bool Visited { get; set; }
             public bool Dirty { get; set; } = true;
             public FloatRect Bounds { get; set; }
-            private IsometricBuffer Container { get; }
             public List<IsometricBufferNode> Children { get; } = new List<IsometricBufferNode>();
+
+            // Members - private
+            private IsometricBuffer Container { get; }
+
         }
     }
 }

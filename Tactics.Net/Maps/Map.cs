@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using Tactics.Net.Extensions;
+using Tactics.Net.Isogeometry;
 
 namespace Tactics.Net.Maps
 {
@@ -55,13 +56,7 @@ namespace Tactics.Net.Maps
         //--------------------------------------------------------------------------------------------------------------------
         public void Draw(RenderTarget target, RenderStates states)
         {
-            foreach(List<Tile> row in Tiles)
-            {
-                foreach(Tile tile in row)
-                {
-                    tile.Draw(target, states);
-                }
-            }
+            ObjectBuffer.Draw(target, states);
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -120,6 +115,7 @@ namespace Tactics.Net.Maps
 
                 tile.Position = new Vector3f(x, y, z);
                 Tiles[x, y].Add(tile);
+                ObjectBuffer.Add(tile);
 
                 // Report a successful placement
                 return true;
@@ -131,6 +127,9 @@ namespace Tactics.Net.Maps
         public int Width { get; }
         public int Length { get; }
         public List<Tile>[,] Tiles { get; }
+
+        // Members - private
+        private IsometricBuffer ObjectBuffer { get; } = new IsometricBuffer();
         // protected Actor[,] Actors { get; }
     }
 }

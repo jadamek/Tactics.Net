@@ -123,6 +123,27 @@ namespace Tactics.Net.Maps
             return false;
         }
 
+        //--------------------------------------------------------------------------------------------------------------------
+        // Map Height At (X, Y)
+        //--------------------------------------------------------------------------------------------------------------------
+        public float Height(float x, float y)
+        {
+            float height = -1;
+
+            // non-integral x and y signify a partial position: off-center from the actual (X, Y) position on the map
+            int X = (int)Math.Round(x);
+            int Y = (int)Math.Round(y);
+
+            // If a valid tile is located at X, Y
+            if(At(X, Y) is Tile tile)
+            {
+                // Get the height of the top-most tile at the position relative to the center of the tile
+                height = tile.Position.Z + tile.Height(new Vector2f(x - X, y - Y));
+            }
+
+            return height;
+        }
+
         // Members
         public int Width { get; }
         public int Length { get; }

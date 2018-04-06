@@ -93,6 +93,7 @@
     <Compile Include="Isogeometry\IsometricObject.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />
+    <Compile Include="Movement\Mobility.cs" />
     <Compile Include="Sprites\ISprite.cs" />
     <Compile Include="Sprites\Objects\SpriteTile.cs" />
     <Compile Include="Tactics.cs" />

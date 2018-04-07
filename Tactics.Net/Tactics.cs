@@ -46,8 +46,11 @@ namespace Tactics.Net
             }
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.Spritesheet sheet = new Sprites.Spritesheet(assassinTexture, 48, 48);
-            sheet.Index = 8;
+            Sprites.SpriteDirected sheet = new Sprites.SpriteDirected(assassinTexture, 48, 48)
+            {
+                Index = 8,
+                Direction = 2,
+            };
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window

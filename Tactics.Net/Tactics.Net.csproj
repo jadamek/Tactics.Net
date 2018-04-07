@@ -99,6 +99,7 @@
     <Compile Include="Movement\Mobility.cs" />
     <Compile Include="Sprites\ISprite.cs" />
     <Compile Include="Sprites\Objects\SpriteTile.cs" />
+    <Compile Include="Sprites\SpriteDirected.cs" />
     <Compile Include="Sprites\Spritesheet.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>

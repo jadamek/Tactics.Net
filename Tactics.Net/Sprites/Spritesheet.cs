@@ -32,7 +32,7 @@ namespace Tactics.Net.Sprites
         //--------------------------------------------------------------------------------------------------------------------
         // - Update Sprite Frame By Index
         //--------------------------------------------------------------------------------------------------------------------
-        protected void UpdateFrame()
+        protected virtual void UpdateFrame()
         {
             if(Texture != null)
             {
@@ -72,7 +72,7 @@ namespace Tactics.Net.Sprites
             get { return index_; }
             set
             {
-                index_ = Math.Min(value, IndexLimit);
+                index_ = Math.Min(value, IndexLimit - 1);
                 UpdateFrame();
             }
         }
@@ -135,7 +135,7 @@ namespace Tactics.Net.Sprites
 
         // Members - private
         protected uint IndexLimit { get; set; }
-        protected virtual uint WidthLimit { get { return Texture.Size.X; } }
+        protected uint WidthLimit { get { return Texture.Size.X; } }
         protected virtual uint HeightLimit { get { return Texture.Size.Y; } }
     }
 }

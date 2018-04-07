@@ -45,6 +45,9 @@ namespace Tactics.Net
                 }
             }
 
+            Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
+            Sprites.Spritesheet sheet = new Sprites.Spritesheet(assassinTexture, 48, 48);
+            sheet.Index = 8;
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window
@@ -59,7 +62,8 @@ namespace Tactics.Net
                 Animation.Animations.Update(gameclock.Restart().AsSeconds());
                 window.DispatchEvents();
                 window.Clear();
-                window.Draw(map);
+                // window.Draw(map);
+                window.Draw(sheet);
                 window.Display();
             }
         }

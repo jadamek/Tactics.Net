@@ -70,6 +70,9 @@
     <Content Include="openal32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Graphics\Characters\Assassin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Graphics\Tiles\DirtSpace_32x24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -96,6 +99,7 @@
     <Compile Include="Movement\Mobility.cs" />
     <Compile Include="Sprites\ISprite.cs" />
     <Compile Include="Sprites\Objects\SpriteTile.cs" />
+    <Compile Include="Sprites\Spritesheet.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>
   <ItemGroup />

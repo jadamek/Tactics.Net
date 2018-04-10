@@ -9,15 +9,14 @@ using Tactics.Net.Animation;
 using Tactics.Net.Maps;
 
 namespace Tactics.Net.Movement
-{
-    /*
+{    
     //========================================================================================================================
-    // ** Mobility Handler
+    // ** Mobility Handler (Abstract)
     //========================================================================================================================
     // Handles the mobility of an isometric object in relative time, changing its position gradually; optionally, this gradual
     // movement may be "grounded": z-position is restricted to a height map
     //========================================================================================================================
-    public class Mobility : AnimatedObject
+    public abstract class Mobility
     {
         //--------------------------------------------------------------------------------------------------------------------
         // - Mobility Constructor
@@ -28,11 +27,24 @@ namespace Tactics.Net.Movement
             Ground = ground;
 
             // If the object is "grounded", set its initial z-position to the height of the grounding map at (0,0)
-            if (Ground != null)
+            if (Grounded)
             {
                 target.Position = new Vector3f(0, 0, Ground.Height(0, 0));
             }
+
+            // Animate the extensible Step method, which defines how objects move under this mobility method
+            MotionCycle.Step += (s, e) => Step();
         }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Move To (X, Y) (Abstract)
+        //--------------------------------------------------------------------------------------------------------------------
+        public abstract void Move(Vector2f destination);
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Compute Reachable Spaces (Abstract)
+        //--------------------------------------------------------------------------------------------------------------------
+        public abstract List<Vector2f> Reach();
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Compute Frames To Arive at (X, Y, Z)
@@ -41,13 +53,13 @@ namespace Tactics.Net.Movement
         {
             // Compute Euclidean distance to (X, Y) - change in Z does not affect arrival time
             double distance = Math.Sqrt(Math.Pow(destination.X - Target.Position.X, 2) + Math.Pow(destination.Y - Target.Position.Y, 2));
-            return (int)Math.Ceiling(distance * Framerate / Speed);
+            return (int)Math.Ceiling(distance * MotionCycle.Framerate / Speed);
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        // - Move To (X, Y, Z) Linearly
+        // - Go To (X, Y, Z) Linearly
         //--------------------------------------------------------------------------------------------------------------------
-        public void MoveTo(Vector3f position)
+        protected void GoTo(Vector3f position)
         {
             Destination = position;
             FramesToArrive = ArrivalTime(position);
@@ -56,7 +68,7 @@ namespace Tactics.Net.Movement
         //--------------------------------------------------------------------------------------------------------------------
         // - Update Positioning & Pathing
         //--------------------------------------------------------------------------------------------------------------------
-        protected override void Step()
+        protected virtual void Step()
         {
             if(FramesToArrive > 0)
             {
@@ -86,7 +98,7 @@ namespace Tactics.Net.Movement
         //--------------------------------------------------------------------------------------------------------------------
         // Target In-Motion (Property)
         //--------------------------------------------------------------------------------------------------------------------
-        public bool Moving {
+        public virtual bool Moving {
             get { return FramesToArrive > 0; }
             set
             {
@@ -103,6 +115,7 @@ namespace Tactics.Net.Movement
         protected Map Ground { get; set; }
         protected int FramesToArrive { get; set; }
         protected Vector3f Destination { get; set; }
-    }
-    */
+        protected virtual bool Grounded { get { return Ground != null; } }
+        protected Animator MotionCycle { get; } = new Animator();
+    }    
 }

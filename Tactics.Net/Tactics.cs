@@ -65,7 +65,7 @@ namespace Tactics.Net
                 Animation.Animations.Update(gameclock.Restart().AsSeconds());
                 window.DispatchEvents();
                 window.Clear();
-                // window.Draw(map);
+                window.Draw(map);
                 window.Draw(sheet);
                 window.Display();
             }

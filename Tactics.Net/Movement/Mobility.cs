@@ -10,6 +10,7 @@ using Tactics.Net.Maps;
 
 namespace Tactics.Net.Movement
 {
+    /*
     //========================================================================================================================
     // ** Mobility Handler
     //========================================================================================================================
@@ -103,4 +104,5 @@ namespace Tactics.Net.Movement
         protected int FramesToArrive { get; set; }
         protected Vector3f Destination { get; set; }
     }
+    */
 }

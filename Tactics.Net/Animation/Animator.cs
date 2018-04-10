@@ -10,17 +10,16 @@ using Tactics.Net.Extensions;
 namespace Tactics.Net.Animation
 {
     //========================================================================================================================
-    // ** Animated Object (Abstract)
+    // ** Animation Handler
     //========================================================================================================================
-    // Represents an abstract object animated in a relative time-space; calls abstract step() per frame based on a local
-    // framerate progressed by update(elapsed)
+    // Executes a per-frame Step event in a relative framerate progressed by update(elapsed)
     //========================================================================================================================
-    public abstract class AnimatedObject : Disposable
+    public class Animator : Disposable
     {
         //--------------------------------------------------------------------------------------------------------------------
         // - Animated Object Constructor
         //--------------------------------------------------------------------------------------------------------------------
-        public AnimatedObject(float framerate = 0)
+        public Animator(float framerate = 0)
         {
             Framerate = framerate > 0 ? framerate : Animations.DEFAULT_FRAMERATE;
 
@@ -29,9 +28,12 @@ namespace Tactics.Net.Animation
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        // - Execute Frame (Abstract)
+        // - Execute Frame Event
         //--------------------------------------------------------------------------------------------------------------------
-        protected abstract void Step();
+        protected void OnStep()
+        {
+            Step?.Invoke(this, new EventArgs());
+        }
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Update Animation In Local Time
@@ -44,17 +46,21 @@ namespace Tactics.Net.Animation
                 Clock += elapsed * Framerate;
 
                 // Step any number of times for every 1 / FRAMERATE amount of seconds that have passed
-                while(Clock-- >= 1)
+                while(Clock >= 1)
                 {
-                    Step();
+                    OnStep();
+                    Clock--;
                 }
             }
         }
 
         // Members
-        protected float framerate_;
+        public event EventHandler<EventArgs> Step;
         public float Framerate { get { return framerate_; } set { if (value > 0) framerate_ = value; } }
         public bool Frozen { get; set; }
+
+        // Members - private
+        protected float framerate_;
         protected float Clock { get; set; }
     }
 }

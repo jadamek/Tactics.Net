@@ -19,7 +19,7 @@ namespace Tactics.Net.Animation
         //--------------------------------------------------------------------------------------------------------------------
         // Pushes a new animated object to the front of the list composed into a node
         //--------------------------------------------------------------------------------------------------------------------
-        public static void Add(AnimatedObject animation)
+        public static void Add(Animator animation)
         {
             if(animation != null)
             {
@@ -43,6 +43,7 @@ namespace Tactics.Net.Animation
         //--------------------------------------------------------------------------------------------------------------------
         public static void Update(float elapsed)
         {
+
             if(!Frozen)
             {
                 AnimationNode node = Front;
@@ -94,8 +95,8 @@ namespace Tactics.Net.Animation
             //----------------------------------------------------------------------------------------------------------------
             // - Animated Object Payload (Property)
             //----------------------------------------------------------------------------------------------------------------
-            private AnimatedObject payload_;
-            public AnimatedObject Payload {
+            private Animator payload_;
+            public Animator Payload {
                 get { return payload_; }
                 set
                 {

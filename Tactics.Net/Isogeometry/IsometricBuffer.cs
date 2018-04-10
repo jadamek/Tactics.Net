@@ -15,8 +15,29 @@ namespace Tactics.Net.Isogeometry
     // Represents a depth buffer of drawable isometric objects, using a topological sort on a separating sorting thread to
     // implement an isometric Painter's algorithm
     //========================================================================================================================
-    partial class IsometricBuffer : AnimatedObject, Drawable
+    partial class IsometricBuffer : Drawable
     {
+        public IsometricBuffer()
+        {
+            // Define per-frame Check & Sort event
+            SortCycle.Step += (s, e) =>
+            {
+                // If the number of dirty (recently added or updated) objects is greather than the total number of objects,
+                // execute a full sort; otherwise, execute a partial sort on only those dirty objects
+                if (Dirty)
+                {
+                    if (Nodes.Count(node => node.Dirty) > Nodes.Count / 2)
+                    {
+                        Sort();
+                    }
+                    else
+                    {
+                        PartialSort();
+                    }
+                }
+            };
+        }
+
         //--------------------------------------------------------------------------------------------------------------------
         // - Add New Object To Buffer
         //--------------------------------------------------------------------------------------------------------------------
@@ -173,36 +194,16 @@ namespace Tactics.Net.Isogeometry
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        // - Execute Sort Check (Implementation)
-        //--------------------------------------------------------------------------------------------------------------------
-        protected override void Step()
-        {
-            // If the number of dirty (recently added or updated) objects is greather than the total number of objects,
-            // execute a full sort; otherwise, execute a partial sort on only those dirty objects
-            if(Dirty)
-            {
-                if(Nodes.Count(node => node.Dirty) > Nodes.Count / 2)
-                {
-                    Sort();
-                }
-                else
-                {
-                    PartialSort();
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------------------------
         // - Dispose (Implementation)
         //--------------------------------------------------------------------------------------------------------------------
-        public override void Dispose()
+        public void Dispose()
         {
             Disposing = true;
             foreach(IsometricBufferNode node in Nodes)
             {
                 node.Dispose();
             }
-            base.Dispose();
+            SortCycle.Dispose();
         }
 
         // Members - private
@@ -210,5 +211,6 @@ namespace Tactics.Net.Isogeometry
         private List<IsometricObject> SortedObjects { get; } = new List<IsometricObject>();
         private bool Dirty { get; set; }
         private bool Disposing { get; set; }
+        private Animator SortCycle { get; } = new Animator();
     }
 }

@@ -87,7 +87,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation\AnimatedObject.cs" />
+    <Compile Include="Animation\Animator.cs" />
     <Compile Include="Animation\Animations.cs" />
     <Compile Include="Extensions\Disposable.cs" />
     <Compile Include="Isogeometry\Isogeometry.cs" />

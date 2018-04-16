@@ -78,7 +78,7 @@ namespace Tactics.Net.Movement
 
                 // If "grounded" and the map has a valid height at the new x, y, set the z-coordinate to that height
                 // Otherwise, "levitate" (retain Z)
-                float z = Math.Max(0, Ground?.Height(x, y) ?? Target.Position.Z);
+                float z = Math.Max(0, (Grounded ? Ground.Height(x, y) : Target.Position.Z));
 
                 Target.Position = new Vector3f(x, y, z);
                 FramesToArrive--;

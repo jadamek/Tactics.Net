@@ -15,7 +15,7 @@ namespace Tactics.Net.Sprites
         //--------------------------------------------------------------------------------------------------------------------
         // - Spritesheet Constructor
         //--------------------------------------------------------------------------------------------------------------------
-        public Spritesheet(Texture texture, uint width = 0, uint height = 0) : base(texture)
+        public Spritesheet(Texture texture, uint width = 0, uint height = 0, uint pages = 1) : base(texture)
         {
             // Default frame dimensions are the entire source dimensions
             if(Texture != null)
@@ -27,6 +27,7 @@ namespace Tactics.Net.Sprites
             Width = width;
             Height = height;
             Index = 0;
+            Pages = pages;
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -36,10 +37,14 @@ namespace Tactics.Net.Sprites
         {
             if(Texture != null)
             {
-                // Frames are indexed left-to-right, then top-to-bottom (reading order)
+
+                // Directions are effectively a group of frame rows (vertical)
+                uint effectiveIndex = Index + Page * IndexLimit;
+
+                // Frames are indexed left-to-right, then top-to-bottom (reading order) within their page
                 TextureRect = new IntRect(
-                    (int)(Width * (Index % (Texture.Size.X / Width))),
-                    (int)(Height * (Index / (Texture.Size.X / Width))),
+                    (int)(Width * (effectiveIndex % (Texture.Size.X / Width))),
+                    (int)(Height * (effectiveIndex / (Texture.Size.X / Width))),
                     (int)Width,
                     (int)Height
                     );
@@ -53,11 +58,11 @@ namespace Tactics.Net.Sprites
         // current frame dimensions; these values changes seldomly and the computation may vary depending on the definition of
         // a frame in the sheet owing to a stored extensible computation
         //--------------------------------------------------------------------------------------------------------------------
-        protected virtual void UpdateIndexLimit()
+        protected void UpdateIndexLimit()
         {
             if(Texture != null)
             {
-                IndexLimit = Texture.Size.X / Width * Texture.Size.Y / Height;
+                IndexLimit = Texture.Size.X / Width * Texture.Size.Y / Height / Pages;
             }
         }
 
@@ -130,12 +135,46 @@ namespace Tactics.Net.Sprites
             }
         }
 
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Sheet Page (Property)
+        //--------------------------------------------------------------------------------------------------------------------
+        private uint page_;
+        public uint Page
+        {
+            get { return page_; }
+            set
+            {
+                page_ = Math.Min(value, Pages - 1);
+                UpdateFrame();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Page Limit (Property)
+        //--------------------------------------------------------------------------------------------------------------------
+        private uint pages_ = 1;
+        public uint Pages
+        {
+            get { return pages_; }
+            set
+            {
+                if (pages_ != value && value > 0 && value <= Texture.Size.X * Texture.Size.Y)
+                {
+                    // Need to update dependent properties when the texture is changed: frame dimensions and index limits
+                    pages_ = value;
+                    Width = Width;
+                    Height = Height;
+                    Index = Index;
+                }
+            }
+        }
+
         // Members
         public uint Indices { get { return IndexLimit; } }
 
         // Members - private
         protected uint IndexLimit { get; set; }
         protected uint WidthLimit { get { return Texture.Size.X; } }
-        protected virtual uint HeightLimit { get { return Texture.Size.Y; } }
+        protected uint HeightLimit { get { return Texture.Size.Y / Pages; } }
     }
 }

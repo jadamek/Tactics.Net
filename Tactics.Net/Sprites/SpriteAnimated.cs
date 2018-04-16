@@ -65,25 +65,23 @@ namespace Tactics.Net.Sprites
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        // - Step Animation
+        // - Step Through Animation
         //--------------------------------------------------------------------------------------------------------------------
         protected void Step()
         {
             if (playing_)
             {
                 // Incremement to the index in the sheet
-                if (Cursor.MoveNext())
+                if (!Cursor.MoveNext())
                 {
-                    Index = (uint)Cursor.Current;
-                }
-                else
-                {
-                    // Return to the first index
-                    Stop();
+                    // Return to the first index in the active sequence when the end of the animation has been reached
+                    Cursor.Reset();
+                    Cursor.MoveNext();
 
                     // If looping, continue playing
                     playing_ = Looping;
                 }
+                Index = (uint)Cursor.Current;
             }
         }
 

@@ -50,7 +50,7 @@ namespace Tactics.Net
             {
                 Page = 2,
             };
-            sheet.Play(true);
+            sheet.Play();
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window

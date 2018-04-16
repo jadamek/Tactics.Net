@@ -90,6 +90,7 @@
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Animation\Animator.cs" />
     <Compile Include="Animation\Animations.cs" />
+    <Compile Include="Animation\IAnimated.cs" />
     <Compile Include="Extensions\Disposable.cs" />
     <Compile Include="Isogeometry\Isogeometry.cs" />
     <Compile Include="Isogeometry\IsometricBuffer.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Movement\Mobility.cs" />
     <Compile Include="Sprites\ISprite.cs" />
     <Compile Include="Sprites\Objects\SpriteTile.cs" />
+    <Compile Include="Sprites\SpriteAnimated.cs" />
     <Compile Include="Sprites\Spritesheet.cs" />
     <Compile Include="Tactics.cs" />
   </ItemGroup>

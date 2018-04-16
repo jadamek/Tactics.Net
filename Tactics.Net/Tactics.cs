@@ -46,11 +46,11 @@ namespace Tactics.Net
             }
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.Spritesheet sheet = new Sprites.Spritesheet(assassinTexture, 48, 48, 4)
+            Sprites.SpriteAnimated sheet = new Sprites.SpriteAnimated(assassinTexture, 48, 48, 4, 2)
             {
-                Index = 8,
                 Page = 2,
             };
+            sheet.Play(true);
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window

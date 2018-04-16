@@ -27,7 +27,7 @@ namespace Tactics.Net.Extensions
         //--------------------------------------------------------------------------------------------------------------------
         protected virtual void OnDisposal()
         {
-            Disposed?.Invoke(this, new EventArgs());
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
 
         // Members - Events

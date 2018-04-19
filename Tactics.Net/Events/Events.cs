@@ -42,19 +42,24 @@ namespace Tactics.Net.Events
         //--------------------------------------------------------------------------------------------------------------------
         private static void Step()
         {
-            foreach(Event scheduled in ScheduledEvents)
+            LinkedListNode<Event> next;
+
+            for(LinkedListNode<Event> scheduled = ScheduledEvents.First; scheduled != null;)
             {
+                next = scheduled.Next;
+
                 // For any event whose delay has expired or their triggering event has fired TRUE, execute and remove it
-                if (scheduled.Countdown() || scheduled.Trigger())
+                if (scheduled.Value.Countdown() || (scheduled.Value.Trigger?.Invoke() ?? false))
                 {
-                    scheduled.Action();
+                    scheduled.Value.Action();
                     ScheduledEvents.Remove(scheduled);
                 }
+                scheduled = next;
             }
         }
 
         // Members - private
-        private static LinkedList<Event> ScheduledEvents { get; }
+        private static LinkedList<Event> ScheduledEvents { get; } = new LinkedList<Event>();
         private static Animator EventCycle { get; } = new Animator();
 
         //====================================================================================================================
@@ -62,7 +67,7 @@ namespace Tactics.Net.Events
         //====================================================================================================================
         // An event that may be scheduled to occur in a number of seconds or by a specific Boolean trigger condition
         //====================================================================================================================
-        private struct Event
+        private class Event
         {
             //--------------------------------------------------------------------------------------------------------------------
             // - Update & Return Countdown Status

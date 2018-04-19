@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using Tactics.Net.Maps;
-using Tactics.Net.Sprites.Objects;
+using Tactics.Net.Sprites.Map;
 
 namespace Tactics.Net
 {
@@ -46,11 +46,11 @@ namespace Tactics.Net
             }
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.SpriteAnimated sheet = new Sprites.SpriteAnimated(assassinTexture, 48, 48, 4, 2)
+            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 2)
             {
                 Page = 2,
             };
-            sheet.Play();
+            sheet.Play(Sprites.Actor.SpriteActor.BasicAnimations.Stand);
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window

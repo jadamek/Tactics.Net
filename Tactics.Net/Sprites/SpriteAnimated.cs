@@ -80,9 +80,20 @@ namespace Tactics.Net.Sprites
 
                     // If looping, continue playing
                     playing_ = Looping;
+
+                    // If this signifies the end of the animation, fire the Finished event
+                    if (!playing_) OnFinish();
                 }
                 Index = (uint)Cursor.Current;
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Fire Animation Finished (Event)
+        //--------------------------------------------------------------------------------------------------------------------
+        protected void OnFinish()
+        {
+            Finished?.Invoke(this, EventArgs.Empty);
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -109,6 +120,7 @@ namespace Tactics.Net.Sprites
         // Members
         public bool Paused { get { return AnimationCycle.Frozen; } set { AnimationCycle.Frozen = value; } }
         public bool Looping { get; set; }
+        public event EventHandler<EventArgs> Finished;
 
         private bool playing_;
         public bool Playing { get { return playing_; } }

@@ -17,5 +17,6 @@ namespace Tactics.Net.Animation
         void Stop();
         bool Paused { get; set; }
         bool Looping { get; set; }
+        event EventHandler<EventArgs> Finished;
     }
 }

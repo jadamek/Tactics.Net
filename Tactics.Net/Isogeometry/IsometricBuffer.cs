@@ -74,7 +74,7 @@ namespace Tactics.Net.Isogeometry
             }
 
             // Push current node's target object onto the back of the sorted drawing queue
-            SortedObjects.Add(current.Target);
+            SortedObjects.AddLast(current.Target);
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace Tactics.Net.Isogeometry
 
         // Members - private
         private List<IsometricBufferNode> Nodes { get; } = new List<IsometricBufferNode>();
-        private List<IsometricObject> SortedObjects { get; } = new List<IsometricObject>();
+        private LinkedList<IsometricObject> SortedObjects { get; } = new LinkedList<IsometricObject>();
         private bool Dirty { get; set; }
         private bool Disposing { get; set; }
         private Animator SortCycle { get; } = new Animator();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
-namespace Tactics.Net.Sprites.Objects
+namespace Tactics.Net.Sprites.Map
 {
     //========================================================================================================================
     // ** Isometric Tile Sprite

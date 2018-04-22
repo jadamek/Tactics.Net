@@ -36,6 +36,15 @@ namespace Tactics.Net.Sprites.Actor
         }
 
         //--------------------------------------------------------------------------------------------------------------------
+        // - Play Animation Sequence (Basic, Specified Duration)
+        //--------------------------------------------------------------------------------------------------------------------
+        public void Play(BasicAnimations animation, float duration)
+        {
+            Sequence = BasicSequences[(int)animation];
+            Play(duration);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
         // - Set Basic Animation Sequence
         //--------------------------------------------------------------------------------------------------------------------
         public void SetSequence(BasicAnimations animation, List<uint> sequence)
@@ -60,6 +69,18 @@ namespace Tactics.Net.Sprites.Actor
             {
                 Sequence = Sequences[sequenceName];
                 Play(loop);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // Play Animation Sequence (Named, Specified Duration)
+        //--------------------------------------------------------------------------------------------------------------------
+        public void Play(string sequenceName, float duration)
+        {
+            if (Sequences.ContainsKey(sequenceName))
+            {
+                Sequence = Sequences[sequenceName];
+                Play(duration);
             }
         }
 

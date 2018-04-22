@@ -46,17 +46,15 @@ namespace Tactics.Net
             }
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 2)
+            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 4)
             {
                 Page = 2,
             };
-            sheet.Play(Sprites.Actor.SpriteActor.BasicAnimations.Stand);
+            
+            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Stand, new List<uint>{ 0, 1, 2, 3});
+            sheet.Finished += (s, e) => { Console.WriteLine("Finished!"); };
+            sheet.Play(Sprites.Actor.SpriteActor.BasicAnimations.Stand, 3);
             Clock gameclock = new Clock();
-
-            Events.Events.Schedule(() => { Console.WriteLine("yo"); }, 1);
-            Events.Events.Schedule(() => { Console.WriteLine("yo"); }, 2);
-            Events.Events.Schedule(() => { Console.WriteLine("yo"); }, 4);
-
 
             // Instantiate the main rendering window
             RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(640, 480), "Tactics!");
@@ -73,7 +71,7 @@ namespace Tactics.Net
                 window.Draw(map);
                 window.Draw(sheet);
                 window.Display();
-            }
+            }            
         }
     }
 }

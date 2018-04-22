@@ -50,6 +50,20 @@ namespace Tactics.Net.Sprites
         }
 
         //--------------------------------------------------------------------------------------------------------------------
+        // - Play Animation (Specified Duration in Sec.)
+        //--------------------------------------------------------------------------------------------------------------------
+        public void Play(float duration)
+        {
+            if (sequence_.Any() && duration > 0)
+            {
+                // Convert duration in seconds to frames
+                duration_ = (int)Math.Ceiling(duration * AnimationCycle.Framerate);
+                playing_ = true;
+                Looping = false;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
         // - Stop Playing Animation
         //--------------------------------------------------------------------------------------------------------------------
         public void Stop()
@@ -71,15 +85,18 @@ namespace Tactics.Net.Sprites
         {
             if (playing_)
             {
+                duration_--;
+
                 // Incremement to the index in the sheet
-                if (!Cursor.MoveNext())
+                if (!Cursor.MoveNext() || duration_ < 1)
                 {
-                    // Return to the first index in the active sequence when the end of the animation has been reached
+                    // Return to the first index in the active sequence when the end of the animation has been reached or if
+                    // the duration of the animation has expired
                     Cursor.Reset();
                     Cursor.MoveNext();
 
-                    // If looping, continue playing
-                    playing_ = Looping;
+                    // If looping or some duration remains, continue playing
+                    playing_ = Looping || duration_ > 0;
 
                     // If this signifies the end of the animation, fire the Finished event
                     if (!playing_) OnFinish();
@@ -127,5 +144,6 @@ namespace Tactics.Net.Sprites
 
         // Members - private
         protected Animator AnimationCycle { get; }
+        protected int duration_;
     }
 }

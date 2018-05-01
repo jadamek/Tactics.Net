@@ -71,11 +71,6 @@ namespace Tactics.Net.Animation
             //----------------------------------------------------------------------------------------------------------------
             public void Dispose()
             {
-                if(Payload != null)
-                {
-                    // Remove event for disposing this node on object disposal
-                    Payload.Disposed -= (s, e) => { Dispose(); };
-                }
                 // Update Current Front Node
                 if(Animations.Front == this)
                 {
@@ -102,11 +97,6 @@ namespace Tactics.Net.Animation
                 {
                     if (payload_ != value)
                     {
-                        if (payload_ != null)
-                        {
-                            // Remove event for disposing this node on object disposal
-                            payload_.Disposed -= (s, e) => { Dispose(); };
-                        }
                         if (value != null)
                         {
                             // Add event for disposing this node on object disposal

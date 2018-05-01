@@ -110,9 +110,11 @@ namespace Tactics.Net.Movement
             }
         }
 
+        // Members
+        public Map Ground { get; set; }
+
         // Members - private
         protected IsometricObject Target { get; set; }
-        protected Map Ground { get; set; }
         protected int FramesToArrive { get; set; }
         protected Vector3f Destination { get; set; }
         protected virtual bool Grounded { get { return Ground != null; } }

@@ -98,24 +98,7 @@ namespace Tactics.Net.Sprites.Actor
                 }
                 Sequences[name] = sequence;
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------------------------
-        // - Face Specific Position
-        //--------------------------------------------------------------------------------------------------------------------
-        public void Face(Vector2f focus)
-        {
-            double angle = Math.Atan2(focus.Y - Position.Y, focus.X - Position.X);
-
-            // Add 2 PI (full circle) to the angle, if it's negative
-            if (angle < 0)
-            {
-                angle = 2 * Math.PI + angle;
-            }
-
-            // Set page to the radial angle normalized by page limit
-            Page = (uint)Math.Round(angle / 2 / Math.PI * Pages) % Pages;
-        }
+        }        
 
         // Members - private
         protected List<uint>[] BasicSequences { get; }

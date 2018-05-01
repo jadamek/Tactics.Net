@@ -116,15 +116,6 @@ namespace Tactics.Net.Isogeometry
             //----------------------------------------------------------------------------------------------------------------
             public override void Dispose()
             {
-                // Remove events from target to dispose this node when the target is disposed, and alert this node of any
-                // changes in position
-                if (Target != null)
-                {
-                    Target.Disposed -= (s, e) => { Dispose(); };
-                    Target.PositionChanged += (s, e) => { Alert(); };
-                }
-                base.Dispose();
-
                 // Remove node from container and detach from all parents, unless the entire container is being disposed
                 if(Container != null && !Container.Disposing)
                 {
@@ -140,6 +131,7 @@ namespace Tactics.Net.Isogeometry
                         }
                     }
                 }
+                base.Dispose();
             }
 
             // Members

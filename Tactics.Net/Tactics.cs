@@ -45,15 +45,28 @@ namespace Tactics.Net
                 }
             }
 
-            Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 4)
+            CircleShape origin = new CircleShape(2)
             {
-                Page = 2,
+                FillColor = Color.Red,
+                Origin = new Vector2f(2, 2),
+            };
+
+            Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
+            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 8)
+            {
+                Origin = new Vector2f(24, 39),
             };
             
-            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Stand, new List<uint>{ 0, 1, 2, 3});
-            sheet.Finished += (s, e) => { Console.WriteLine("Finished!"); };
+            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Stand, new List<uint>{ 0, 0, 1, 1, 2, 2, 3, 3});
             sheet.Play(Sprites.Actor.SpriteActor.BasicAnimations.Stand, 3);
+
+            Actors.Actor assassin = new Actors.Actor()
+            {
+                Sprite = sheet,
+            };
+
+            map.Join(assassin, 0, 5);
+
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window
@@ -69,7 +82,7 @@ namespace Tactics.Net
                 window.DispatchEvents();
                 window.Clear();
                 window.Draw(map);
-                window.Draw(sheet);
+                window.Draw(origin);
                 window.Display();
             }            
         }

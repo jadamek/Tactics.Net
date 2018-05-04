@@ -33,19 +33,45 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Resources\Fonts\ARIAL.TTF" />
-    <None Include="Resources\Fonts\ARIALBD.TTF" />
-    <None Include="Resources\Fonts\ARIALBI.TTF" />
-    <None Include="Resources\Fonts\ARIALI.TTF" />
-    <None Include="Resources\Fonts\ARIALN.TTF" />
-    <None Include="Resources\Fonts\ARIALNB.TTF" />
-    <None Include="Resources\Fonts\ARIALNBI.TTF" />
-    <None Include="Resources\Fonts\ARIALNI.TTF" />
-    <None Include="Resources\Fonts\ARIBLK.TTF" />
-    <None Include="Resources\Fonts\COUR.TTF" />
-    <None Include="Resources\Fonts\COURBD.TTF" />
-    <None Include="Resources\Fonts\COURBI.TTF" />
-    <None Include="Resources\Fonts\COURI.TTF" />
+    <None Include="Resources\Fonts\ARIAL.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALBD.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALN.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALNB.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALNBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIALNI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\ARIBLK.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\COUR.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\COURBD.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\COURBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\COURI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="sfmlnet-audio-2">
@@ -116,7 +142,9 @@
     <Compile Include="Isogeometry\IsometricObject.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Tile.cs" />
+    <Compile Include="Movement\IMobile.cs" />
     <Compile Include="Movement\Mobility.cs" />
+    <Compile Include="Movement\Walking.cs" />
     <Compile Include="Sprites\Actor\SpriteActor.cs" />
     <Compile Include="Sprites\Actor\SpritePortrait.cs" />
     <Compile Include="Sprites\Battle\SpriteDamage.cs" />

@@ -9,27 +9,26 @@ using Tactics.Net.Animation;
 using Tactics.Net.Maps;
 
 namespace Tactics.Net.Movement
-{    
+{
     //========================================================================================================================
     // ** Mobility Handler (Abstract)
     //========================================================================================================================
-    // Handles the mobility of an isometric object in relative time, changing its position gradually; optionally, this gradual
-    // movement may be "grounded": z-position is restricted to a height map
+    // Handles the movement of an isometric mobile object in relative time, changing its position gradually within the bounds
+    // of the object's environment, if present
     //========================================================================================================================
     public abstract class Mobility
     {
         //--------------------------------------------------------------------------------------------------------------------
         // - Mobility Constructor
         //--------------------------------------------------------------------------------------------------------------------
-        public Mobility(IsometricObject target, Map ground = null)
+        public Mobility(IMobile target)
         {
             Target = target;
-            Ground = ground;
 
-            // If the object is "grounded", set its initial z-position to the height of the grounding map at (0,0)
+            // If the object is "grounded", set its initial z-position to the height of the grounding map at (x,y)
             if (Grounded)
             {
-                target.Position = new Vector3f(0, 0, Ground.Height(0, 0));
+                target.Position = new Vector3f(Target.Position.X, Target.Position.Y, Target.Environment.Height(Target.Position.X, Target.Position.Y));
             }
 
             // Animate the extensible Step method, which defines how objects move under this mobility method
@@ -40,6 +39,11 @@ namespace Tactics.Net.Movement
         // - Move To (X, Y) (Abstract)
         //--------------------------------------------------------------------------------------------------------------------
         public abstract void Move(Vector2f destination);
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Move Along A Set Path (Abstract)
+        //--------------------------------------------------------------------------------------------------------------------
+        public abstract void Move(LinkedList<Vector2f> path);
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Compute Reachable Spaces (Abstract)
@@ -66,19 +70,36 @@ namespace Tactics.Net.Movement
         }
 
         //--------------------------------------------------------------------------------------------------------------------
+        // - Stop Moving
+        //--------------------------------------------------------------------------------------------------------------------
+        public virtual void Stop()
+        {
+            FramesToArrive = 0;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
         // - Update Positioning & Pathing
         //--------------------------------------------------------------------------------------------------------------------
         protected virtual void Step()
         {
+            // Implements the basics of the GoTo movement (gradual slide to destination)
             if(FramesToArrive > 0)
             {
                 // Gradual progression = (Destination - Current) / Arrival--
                 float x = Target.Position.X + (Destination.X - Target.Position.X) / FramesToArrive;
                 float y = Target.Position.Y + (Destination.Y - Target.Position.Y) / FramesToArrive;
+                float z = 0;
 
                 // If "grounded" and the map has a valid height at the new x, y, set the z-coordinate to that height
-                // Otherwise, "levitate" (retain Z)
-                float z = Math.Max(0, (Grounded ? Ground.Height(x, y) : Target.Position.Z));
+                // Otherwise, "levitate" (gradual Z to destination)
+                if (Grounded)
+                {
+                    z = Math.Max(0, Target.Environment.Height(x, y));
+                }
+                else
+                {
+                    z = Target.Position.Z + (Destination.Z - Target.Position.Z) / FramesToArrive;
+                }
 
                 Target.Position = new Vector3f(x, y, z);
                 FramesToArrive--;
@@ -95,29 +116,14 @@ namespace Tactics.Net.Movement
             set { if (value > 0) speed_ = value; }
         }
 
-        //--------------------------------------------------------------------------------------------------------------------
-        // Target In-Motion (Property)
-        //--------------------------------------------------------------------------------------------------------------------
-        public virtual bool Moving {
-            get { return FramesToArrive > 0; }
-            set
-            {
-                // Setting this flag will halt/resume the target's current motion
-                if (Moving != value)
-                {
-                    FramesToArrive = (value && Destination != null ? ArrivalTime(Destination) : 0);
-                }
-            }
-        }
-
         // Members
-        public Map Ground { get; set; }
+        public virtual bool Moving { get { return FramesToArrive > 0; } }
 
         // Members - private
-        protected IsometricObject Target { get; set; }
+        protected IMobile Target { get; set; }
         protected int FramesToArrive { get; set; }
         protected Vector3f Destination { get; set; }
-        protected virtual bool Grounded { get { return Ground != null; } }
+        protected virtual bool Grounded { get { return Target.Environment != null; } }
         protected Animator MotionCycle { get; } = new Animator();
-    }    
+    }
 }

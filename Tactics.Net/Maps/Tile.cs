@@ -20,6 +20,7 @@ namespace Tactics.Net.Maps
         public Tile(ISprite sprite = null, float height = 1.0f)
         {
             Sprite = sprite;
+            height_ = height;
 
             // If the Z-coordinate is changed, appropriately adjust the Z-coordinate of any occupying objects 
             PositionChanged += (s, e) =>
@@ -29,6 +30,16 @@ namespace Tactics.Net.Maps
                     Occupant.Position = new Vector3f(Occupant.Position.X, Occupant.Position.Y, Occupant.Position.Z + e.NewPosition.Z - e.OldPosition.Z);
                 }
             };
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Get Height (Override)
+        //--------------------------------------------------------------------------------------------------------------------
+        // * offset : (x,y) position relative to the center of the x-y axis of object
+        //--------------------------------------------------------------------------------------------------------------------
+        public override float Height(Vector2f offset)
+        {
+            return height_;
         }
 
         //--------------------------------------------------------------------------------------------------------------------

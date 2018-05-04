@@ -18,12 +18,12 @@ namespace Tactics.Net.Sprites.Battle
         //--------------------------------------------------------------------------------------------------------------------
         public SpriteDamage(int amount)
         {
-            Amount = new Text(amount.ToString(), Courier, 12)
+            Amount = new Text(amount.ToString(), Courier, 24)
             {
                 Style = Text.Styles.Bold,
                 Color = Color.Red,
-                Origin = new Vector2f(Amount.GetLocalBounds().Width / 2, Amount.GetLocalBounds().Height / 2),
             };
+            Amount.Origin = new Vector2f(Amount.GetLocalBounds().Width / 2, Amount.GetLocalBounds().Height / 2);
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -36,6 +36,6 @@ namespace Tactics.Net.Sprites.Battle
 
         // Members - private
         private Text Amount { get; set; }
-        private Font Courier { get; } = new Font("Resources/Fonts/cour.tff");
+        private Font Courier { get; } = new Font("Resources/Fonts/cour.ttf");
     }
 }

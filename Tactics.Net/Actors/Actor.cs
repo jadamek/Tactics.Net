@@ -18,7 +18,7 @@ namespace Tactics.Net.Actors
     //========================================================================================================================
     // A general actor, which ranges from playable characters and NPC livestock to complex skill effects and composite objects
     //========================================================================================================================
-    public class Actor : IsometricObject
+    public class Actor : IsometricObject, IMobile
     {
         //--------------------------------------------------------------------------------------------------------------------
         // - Inflict or Recover Damage
@@ -28,6 +28,15 @@ namespace Tactics.Net.Actors
 
         }
 
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Move To (X,Y)
+        //--------------------------------------------------------------------------------------------------------------------
+        public virtual void Move(Vector2f position)
+        {
+            Locomotion?.Move(position);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
         // - Face Specific Position
         //--------------------------------------------------------------------------------------------------------------------
         public void Face(Vector2f focus)
@@ -63,31 +72,10 @@ namespace Tactics.Net.Actors
             return Sprite?.GetGlobalBounds() ?? new FloatRect();
         }
 
-        //--------------------------------------------------------------------------------------------------------------------
-        // - Environment (Propery)
-        //--------------------------------------------------------------------------------------------------------------------
-        protected Map environment_;
-        public Map Environment
-        {
-            get { return environment_; }
-            set
-            {
-                if(value != environment_)
-                {
-                    // Update locomotion's ground map to match the current environment
-                    if(Locomotion != null)
-                    {
-                        Locomotion.Moving = false;
-                        Locomotion.Ground = value;
-                    }
-                    environment_ = value;
-                }
-            }
-        }
-
         // Members
         public SpriteActor Sprite { get; set; }
         public SpritePortrait Portrait { get; set; }
+        public Map Environment { get; set; }
         public Mobility Locomotion { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace Tactics.Net
                     Tile dirt = new Tile(new SpriteTile(dirtTexture, 32, 24, 16), 2);
                     map.Place(dirt, x, y);
                     Tile grass = new Tile(new SpriteTile(grassTexture, 32, 24, 8), 1);
-                    map.Place(grass, x, y);
+                    map.Place(grass, x, y);                    
 
                     if (y == 0 && x < 5)
                     {
@@ -44,6 +44,8 @@ namespace Tactics.Net
                     }
                 }
             }
+            Console.WriteLine(map.Height(0, 0));
+            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 32), 4), 1, 5);
 
             CircleShape origin = new CircleShape(2)
             {
@@ -64,8 +66,14 @@ namespace Tactics.Net
             {
                 Sprite = sheet,
             };
+            assassin.Locomotion = new Movement.Walking(assassin);
 
             map.Join(assassin, 0, 5);
+
+            assassin.Face(new Vector2f(-2, 5));
+            assassin.Move(new Vector2f(6, 5));
+
+            Sprites.Battle.SpriteDamage damage = new Sprites.Battle.SpriteDamage(32);
 
             Clock gameclock = new Clock();
 
@@ -83,8 +91,9 @@ namespace Tactics.Net
                 window.Clear();
                 window.Draw(map);
                 window.Draw(origin);
+                window.Draw(damage);
                 window.Display();
-            }            
+            }
         }
     }
 }

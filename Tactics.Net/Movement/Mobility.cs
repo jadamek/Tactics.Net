@@ -103,8 +103,19 @@ namespace Tactics.Net.Movement
 
                 Target.Position = new Vector3f(x, y, z);
                 FramesToArrive--;
+
+                // When the destination has just been reached ...
+                if(FramesToArrive == 0)
+                {
+                    Arrived();
+                }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Current Destination Is Reached
+        //--------------------------------------------------------------------------------------------------------------------
+        protected virtual void Arrived() { }
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Speed In Coordinates / Sec (Property)

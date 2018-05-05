@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\Actor.cs" />
+    <Compile Include="Algorithms\Djikstra.cs" />
     <Compile Include="Animation\Animator.cs" />
     <Compile Include="Animation\Animations.cs" />
     <Compile Include="Animation\IAnimated.cs" />

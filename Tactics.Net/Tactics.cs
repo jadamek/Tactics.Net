@@ -44,8 +44,11 @@ namespace Tactics.Net
                     }
                 }
             }
-            Console.WriteLine(map.Height(0, 0));
             map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 32), 4), 1, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 8), 1), 2, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 16), 2), 3, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 48), 6), 6, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 32), 4), 6, 6);
 
             CircleShape origin = new CircleShape(2)
             {
@@ -66,7 +69,7 @@ namespace Tactics.Net
             {
                 Sprite = sheet,
             };
-            assassin.Locomotion = new Movement.Walking(assassin);
+            assassin.Locomotion = new Movement.Walking(assassin) { JumpScore = 5 };
 
             map.Join(assassin, 0, 5);
 

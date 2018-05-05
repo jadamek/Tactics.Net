@@ -21,7 +21,6 @@ namespace Tactics.Net.Movement
         //----------------------------------------------------------------------------------------------------------------
         public Walking(Actor target) : base(target)
         {
-
         }
 
         //----------------------------------------------------------------------------------------------------------------
@@ -29,7 +28,29 @@ namespace Tactics.Net.Movement
         //----------------------------------------------------------------------------------------------------------------
         public override void Move(Vector2f destination)
         {
-            GoTo(new Vector3f(destination.X, destination.Y, Target.Environment.Height(destination.X, destination.Y)));
+            // Move along the shortest path to the destination
+            Move(Algorithms.Djikstra.ShortestPath(
+                new Vector2f(Target.Position.X, Target.Position.Y),
+                destination,
+                MoveScore,
+                (current, next) =>
+                {
+                    // If the target is present within a height map environment, valid steps must be destined for a valid
+                    // tile, and the difference in height between the current and next tile must not exceed the JumpScore
+                    if (Target.Environment != null)
+                    {
+                        float z = Target.Environment.Height(current.X, current.Y);
+                        // Will result in -1 if the next tile is invalid
+                        float dz = Target.Environment.Height(next.X, next.Y);
+
+                        return dz >= 0 && Math.Abs(z - dz) <= JumpScore;
+                    }
+                    // Otherwise, the path has no real bounds other than length
+                    else
+                    {
+                        return true;
+                    }
+                }));
         }
 
         //----------------------------------------------------------------------------------------------------------------
@@ -37,6 +58,13 @@ namespace Tactics.Net.Movement
         //----------------------------------------------------------------------------------------------------------------
         public override void Move(LinkedList<Vector2f> path)
         {
+            if (path?.Any() ?? false)
+            {
+                Path = path;
+
+                // Go to the first step in the path (X, Y, Height) by invoking Arrive at the source position
+                Arrived();
+            }
         }
 
         //----------------------------------------------------------------------------------------------------------------
@@ -49,5 +77,54 @@ namespace Tactics.Net.Movement
         {
             throw new NotImplementedException();
         }
+
+        //----------------------------------------------------------------------------------------------------------------
+        // - Current Step Has Been Traversed (Override)
+        //----------------------------------------------------------------------------------------------------------------
+        protected override void Arrived()
+        {
+            // Move onto the next step in the path (X, Y, Height), if present
+            if (Path.Any())
+            {
+                float z = Target.Environment?.Height(Path.First.Value.X, Path.First.Value.Y) ?? Target.Position.Z;
+                Vector3f next = new Vector3f(Path.First.Value.X, Path.First.Value.Y, z);
+
+                // If the difference in height between the current and next step is ...               
+                float dz = Math.Abs(Target.Position.Z - z);
+                if (dz <= 1)
+                {
+                    // Less than 1, just walk normally
+                    GoTo(next);
+                }
+                else if(dz <= 2)
+                {
+                    // Within 2, hop to the next step
+                    Jump(next, true);
+                }
+                else
+                {
+                    // More than 2, full jump to then next step
+                    Jump(next);
+                }
+
+                Path.RemoveFirst();
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------------------------
+        // - Jump To (X, Y)
+        //----------------------------------------------------------------------------------------------------------------
+        protected void Jump(Vector3f destination, bool hop = false)
+        {
+            Console.WriteLine("BOING! " + destination.X + " " + destination.Y + (hop ? " BUNNY HOP!" : ""));
+            GoTo(destination);
+        }
+
+        // Members
+        public int MoveScore { get; set; } = 10;
+        public int JumpScore { get; set; } = 10;
+
+        // Members - private
+        protected LinkedList<Vector2f> Path { get; set; } = new LinkedList<Vector2f>();
     }
 }

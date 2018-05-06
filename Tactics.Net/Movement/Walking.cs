@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
 using Tactics.Net.Actors;
+using Tactics.Net.Sprites.Actor;
 
 namespace Tactics.Net.Movement
 {
@@ -89,11 +90,15 @@ namespace Tactics.Net.Movement
                 float z = Target.Environment?.Height(Path.First.Value.X, Path.First.Value.Y) ?? Target.Position.Z;
                 Vector3f next = new Vector3f(Path.First.Value.X, Path.First.Value.Y, z);
 
+                // Face toward the next step
+                (Target as Actor).Face(Path.First.Value);
+
                 // If the difference in height between the current and next step is ...               
                 float dz = Math.Abs(Target.Position.Z - z);
                 if (dz <= 1)
                 {
                     // Less than 1, just walk normally
+                    (Target as Actor).Sprite.Play(SpriteActor.BasicAnimations.Walk, true);
                     GoTo(next);
                 }
                 else if(dz <= 2)
@@ -109,6 +114,11 @@ namespace Tactics.Net.Movement
 
                 Path.RemoveFirst();
             }
+            // Otherwise, the final destination has been reached: resume standing
+            else
+            {
+                (Target as Actor).Sprite.Play(SpriteActor.BasicAnimations.Stand, true);
+            }
         }
 
         //----------------------------------------------------------------------------------------------------------------
@@ -116,7 +126,8 @@ namespace Tactics.Net.Movement
         //----------------------------------------------------------------------------------------------------------------
         protected void Jump(Vector3f destination, bool hop = false)
         {
-            Console.WriteLine("BOING! " + destination.X + " " + destination.Y + (hop ? " BUNNY HOP!" : ""));
+            (Target as Actor).Sprite.Play((hop ? SpriteActor.BasicAnimations.Hop : SpriteActor.BasicAnimations.Jump), true);
+
             GoTo(destination);
         }
 

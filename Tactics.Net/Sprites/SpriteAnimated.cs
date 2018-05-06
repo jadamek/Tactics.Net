@@ -44,6 +44,7 @@ namespace Tactics.Net.Sprites
         {
             if(sequence_.Any())
             {
+                duration_ = -1;
                 playing_ = true;
                 Looping = loop;
             }
@@ -85,10 +86,10 @@ namespace Tactics.Net.Sprites
         {
             if (playing_)
             {
-                duration_--;
+                if(duration_ > 0) duration_--;
 
                 // Incremement to the index in the sheet
-                if (!Cursor.MoveNext() || duration_ < 1)
+                if (!Cursor.MoveNext() || duration_ == 0)
                 {
                     // Return to the first index in the active sequence when the end of the animation has been reached or if
                     // the duration of the animation has expired
@@ -120,7 +121,7 @@ namespace Tactics.Net.Sprites
         public List<uint> Sequence {
             get { return sequence_; }
             set {
-                if (value.Any())
+                if (sequence_ != value && value.Any())
                 {
                     sequence_ = value;
                     Cursor = value.GetEnumerator();

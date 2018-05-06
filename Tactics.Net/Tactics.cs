@@ -57,24 +57,24 @@ namespace Tactics.Net
             };
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
-            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 8)
+            Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 12)
             {
                 Origin = new Vector2f(24, 39),
             };
             
-            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Stand, new List<uint>{ 0, 0, 1, 1, 2, 2, 3, 3});
+            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Stand, new List<uint>{ 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3});
+            sheet.SetSequence(Sprites.Actor.SpriteActor.BasicAnimations.Walk, new List<uint>{ 0, 0, 1, 1, 2, 2, 3, 3});
             sheet.Play(Sprites.Actor.SpriteActor.BasicAnimations.Stand, 3);
 
             Actors.Actor assassin = new Actors.Actor()
             {
                 Sprite = sheet,
             };
-            assassin.Locomotion = new Movement.Walking(assassin) { JumpScore = 5 };
+            assassin.Locomotion = new Movement.Walking(assassin) { JumpScore = 5, Speed = 1f };
 
             map.Join(assassin, 0, 5);
 
-            assassin.Face(new Vector2f(-2, 5));
-            assassin.Move(new Vector2f(6, 5));
+            assassin.Move(new Vector2f(3, 9));
 
             Sprites.Battle.SpriteDamage damage = new Sprites.Battle.SpriteDamage(32);
 

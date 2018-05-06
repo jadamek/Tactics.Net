@@ -116,6 +116,9 @@ namespace Tactics.Net.Sprites.Actor
             Wounded,
             Damage,
             Die,
+            Jump,
+            Hop,
+            Cast,
         };
     }
 }

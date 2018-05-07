@@ -128,7 +128,7 @@ namespace Tactics.Net.Movement
         {
             (Target as Actor).Sprite.Play((hop ? SpriteActor.BasicAnimations.Hop : SpriteActor.BasicAnimations.Jump), true);
 
-            GoTo(destination);
+            GoAlong(new JumpArc(Target.Position, destination));
         }
 
         // Members

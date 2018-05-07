@@ -19,6 +19,6 @@ namespace Tactics.Net.Isogeometry
         }
 
         // Properties
-        public static Vector3f Scale { get; } = new Vector3f(32.0f, 24.0f, 8.0f);
+        public static Vector3f Scale { get; } = new Vector3f(32, 16, 8);
     }
 }

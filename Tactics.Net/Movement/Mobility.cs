@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
-using Tactics.Net.Isogeometry;
 using Tactics.Net.Animation;
-using Tactics.Net.Maps;
 
 namespace Tactics.Net.Movement
 {
@@ -16,7 +14,7 @@ namespace Tactics.Net.Movement
     // Handles the movement of an isometric mobile object in relative time, changing its position gradually within the bounds
     // of the object's environment, if present
     //========================================================================================================================
-    public abstract class Mobility
+    public abstract partial class Mobility
     {
         //--------------------------------------------------------------------------------------------------------------------
         // - Mobility Constructor
@@ -67,6 +65,20 @@ namespace Tactics.Net.Movement
         {
             Destination = position;
             FramesToArrive = ArrivalTime(position);
+            Function = null;
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Go Along A Function-Based Movement
+        //--------------------------------------------------------------------------------------------------------------------
+        protected void GoAlong(MotionFunction function)
+        {
+            if((function?.Length() ?? 0) > 0)
+            {
+                Function = function;
+                FunctionLength = (int)Math.Ceiling(function.Length() * MotionCycle.Framerate / Speed);
+                FramesToArrive = FunctionLength;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -75,6 +87,7 @@ namespace Tactics.Net.Movement
         public virtual void Stop()
         {
             FramesToArrive = 0;
+            Function = null;
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -86,23 +99,31 @@ namespace Tactics.Net.Movement
             if(FramesToArrive > 0)
             {
                 // Gradual progression = (Destination - Current) / Arrival--
-                float x = Target.Position.X + (Destination.X - Target.Position.X) / FramesToArrive;
-                float y = Target.Position.Y + (Destination.Y - Target.Position.Y) / FramesToArrive;
-                float z = 0;
-
-                // If "grounded" and the map has a valid height at the new x, y, set the z-coordinate to that height
-                // Otherwise, "levitate" (gradual Z to destination)
-                if (Grounded)
+                if (Function == null)
                 {
-                    z = Math.Max(0, Target.Environment.Height(x, y));
+                    float x = Target.Position.X + (Destination.X - Target.Position.X) / FramesToArrive;
+                    float y = Target.Position.Y + (Destination.Y - Target.Position.Y) / FramesToArrive;
+                    float z = 0;
+
+                    // If "grounded" and the map has a valid height at the new x, y, set the z-coordinate to that height
+                    // Otherwise, "levitate" (gradual Z to destination)
+                    if (Grounded)
+                    {
+                        z = Math.Max(0, Target.Environment.Height(x, y));
+                    }
+                    else
+                    {
+                        z = Target.Position.Z + (Destination.Z - Target.Position.Z) / FramesToArrive;
+                    }
+
+                    Target.Position = new Vector3f(x, y, z);
+                    FramesToArrive--;
                 }
+                // Function-based progression
                 else
                 {
-                    z = Target.Position.Z + (Destination.Z - Target.Position.Z) / FramesToArrive;
+                    Target.Position = Function.At(((float)FunctionLength - --FramesToArrive) / FunctionLength);
                 }
-
-                Target.Position = new Vector3f(x, y, z);
-                FramesToArrive--;
 
                 // When the destination has just been reached ...
                 if(FramesToArrive == 0)
@@ -134,7 +155,9 @@ namespace Tactics.Net.Movement
         protected IMobile Target { get; set; }
         protected int FramesToArrive { get; set; }
         protected Vector3f Destination { get; set; }
+        protected MotionFunction Function { get; set; }
+        protected int FunctionLength { get; set; }
         protected virtual bool Grounded { get { return Target.Environment != null; } }
-        protected Animator MotionCycle { get; } = new Animator();
+        protected Animator MotionCycle { get; } = new Animator();        
     }
 }

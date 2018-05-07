@@ -19,9 +19,9 @@ namespace Tactics.Net.Sprites.Map
     public class SpriteTile : Transformable, ISprite
     {
         //--------------------------------------------------------------------------------------------------------------------
-        // Tile Sprite Constructor
+        // - Tile Sprite Constructor (Pixel-based Parameters)
         //--------------------------------------------------------------------------------------------------------------------
-        public SpriteTile(Texture texture, int width = 0, int length = 0, int height = 0, bool continuous = false)
+        public SpriteTile(Texture texture, int width, int length, int height = 0, bool continuous = false)
         {
             // Width|Length must be between (0, Texture.Width|Length / 2], or set to Texture.Width|Length / 2
             Width = width <= 0 || width > texture.Size.X / 2 ? (int)texture.Size.X / 2: width;
@@ -59,6 +59,22 @@ namespace Tactics.Net.Sprites.Map
                 };
             }
         }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Tile Sprite Constructor (Global Parameters)
+        //--------------------------------------------------------------------------------------------------------------------
+        public SpriteTile(Texture texture, float height = 0, bool continuous = false) :
+            this(texture, (int)Isogeometry.Isogeometry.Scale.X, (int)Isogeometry.Isogeometry.Scale.Y,
+                (int)(Isogeometry.Isogeometry.Scale.Z * Math.Max(0, height)), continuous)
+        {
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------
+        // - Setup Tile Sprite
+        //--------------------------------------------------------------------------------------------------------------------
+        // Implements a shared construction
+        //--------------------------------------------------------------------------------------------------------------------
+
 
         //--------------------------------------------------------------------------------------------------------------------
         // - Set New Height

@@ -23,8 +23,8 @@ namespace Tactics.Net
         static void Main()
         {
             // Create a tile sprite
-            Texture dirtTexture = new Texture("Resources/Graphics/Tiles/DirtTile_32x24.png");
-            Texture grassTexture = new Texture("Resources/Graphics/Tiles/GrassTile_32x24.png");
+            Texture dirtTexture = new Texture("Resources/Graphics/Tiles/DirtTile_32x16.png");
+            Texture grassTexture = new Texture("Resources/Graphics/Tiles/GrassTile_32x16.png");
             Map map = new Map(15, 15);
 
             Tile[] tiles = new Tile[5];
@@ -33,9 +33,9 @@ namespace Tactics.Net
             {
                 for (int y = 0; y < map.Length; y++)
                 {
-                    Tile dirt = new Tile(new SpriteTile(dirtTexture, 32, 24, 16), 2);
+                    Tile dirt = new Tile(new SpriteTile(dirtTexture, 2), 2);
                     map.Place(dirt, x, y);
-                    Tile grass = new Tile(new SpriteTile(grassTexture, 32, 24, 8), 1);
+                    Tile grass = new Tile(new SpriteTile(grassTexture, 1), 1);
                     map.Place(grass, x, y);                    
 
                     if (y == 0 && x < 5)
@@ -44,17 +44,17 @@ namespace Tactics.Net
                     }
                 }
             }
-            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 32), 4), 1, 5);
-            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 8), 1), 2, 5);
-            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 16), 2), 3, 5);
-            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 48), 6), 6, 5);
-            map.Place(new Tile(new SpriteTile(grassTexture, 32, 24, 32), 4), 6, 6);
+            map.Place(new Tile(new SpriteTile(grassTexture, 4), 4), 1, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 1), 1), 2, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 2), 2), 3, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 6), 6), 6, 5);
+            map.Place(new Tile(new SpriteTile(grassTexture, 4), 4), 6, 6);
 
             CircleShape origin = new CircleShape(2)
             {
                 FillColor = Color.Red,
                 Origin = new Vector2f(2, 2),
-            };
+            };            
 
             Texture assassinTexture = new Texture("Resources/Graphics/Characters/Assassin.png");
             Sprites.Actor.SpriteActor sheet = new Sprites.Actor.SpriteActor(assassinTexture, 48, 48, 4, 12)
@@ -70,21 +70,20 @@ namespace Tactics.Net
             {
                 Sprite = sheet,
             };
-            assassin.Locomotion = new Movement.Walking(assassin) { JumpScore = 5, Speed = 1f };
+            assassin.Locomotion = new Movement.Walking(assassin) { JumpScore = 5, Speed = 1f};
 
             map.Join(assassin, 0, 5);
 
-            assassin.Move(new Vector2f(3, 9));
+            assassin.Move(new Vector2f(6, 5));
 
             Sprites.Battle.SpriteDamage damage = new Sprites.Battle.SpriteDamage(32);
 
             Clock gameclock = new Clock();
 
             // Instantiate the main rendering window
-            RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(640, 480), "Tactics!");
+            RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(1280, 960), "Tactics!");
             window.Closed += (s, e) => { window.Close(); };
-            View view = window.DefaultView;
-            view.Center = new Vector2f(0, 150);
+            View view = new View(new Vector2f(0, 80), new Vector2f(640, 480));
             window.SetView(view);
             
             while(window.IsOpen)

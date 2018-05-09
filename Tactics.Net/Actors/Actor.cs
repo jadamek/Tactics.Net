@@ -69,7 +69,12 @@ namespace Tactics.Net.Actors
         //--------------------------------------------------------------------------------------------------------------------
         public override FloatRect GetGlobalBounds()
         {
-            return Sprite?.GetGlobalBounds() ?? new FloatRect();
+            FloatRect bounds = Sprite?.GetGlobalBounds() ?? new FloatRect();
+            bounds.Left -= (20 - bounds.Width) / 2;
+            bounds.Width = 20;
+            bounds.Top -= (20 - bounds.Height) / 2;
+            bounds.Height = 28;
+            return bounds;
         }
 
         // Members

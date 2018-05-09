@@ -79,7 +79,7 @@ namespace Tactics.Net
             Sprites.Battle.SpriteDamage damage = new Sprites.Battle.SpriteDamage(32);
 
             Clock gameclock = new Clock();
-
+            Console.WriteLine(assassin.GetGlobalBounds());
             // Instantiate the main rendering window
             RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(1280, 960), "Tactics!");
             window.Closed += (s, e) => { window.Close(); };

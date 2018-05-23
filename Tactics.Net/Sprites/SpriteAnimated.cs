@@ -91,18 +91,23 @@ namespace Tactics.Net.Sprites
                 // Incremement to the index in the sheet
                 if (!Cursor.MoveNext() || duration_ == 0)
                 {
-                    // Return to the first index in the active sequence when the end of the animation has been reached or if
-                    // the duration of the animation has expired
-                    Cursor.Reset();
-                    Cursor.MoveNext();
-
                     // If looping or some duration remains, continue playing
                     playing_ = Looping || duration_ > 0;
 
-                    // If this signifies the end of the animation, fire the Finished event
-                    if (!playing_) OnFinish();
+                    if (playing_)
+                    {
+                        // Return to the first index in the active sequence when the end of the animation has been reached, but
+                        // the duration of the animation has not expired or it is looping
+                        Cursor.Reset();
+                        Cursor.MoveNext();
+                    }
+                    else
+                    {
+                        // If this signifies the end of the animation, fire the Finished event
+                        OnFinish();
+                    }
                 }
-                Index = (uint)Cursor.Current;
+                if(playing_) Index = (uint)Cursor.Current;
             }
         }
 

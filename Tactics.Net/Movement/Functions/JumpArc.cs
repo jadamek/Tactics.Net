@@ -44,7 +44,7 @@ namespace Tactics.Net.Movement
                 double dt = (Start.Z > Floor ? Distance - t * Distance : t * Distance);
                 
                 // Arc equation to compute the z position (relative to the "Floor" z-coordinate) as a function of time (0, 1)
-                double z = -(Height + Offset) / (Summit * Summit) * Math.Pow((dt * Distance - Summit), 2) + Height + Offset;
+                double z = -(Height + Offset) / (Summit * Summit) * Math.Pow(dt - Summit, 2) + Height + Offset;
 
                 Vector3f result = new Vector3f(
                     Start.X + (Destination.X - Start.X) * t,
